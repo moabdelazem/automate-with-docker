@@ -113,6 +113,75 @@ app.listen(3000, () => {
 });
 ```
 
+## CI Docker Piplies
+
+## 01- Basic Docker Pipeline
+
+This project includes a GitHub Actions workflow that automates the Docker image build and push process. The pipeline is defined in `.github/workflows/basic-docker.yml`.
+
+### Pipeline Overview
+
+![Docker CI Pipeline Workflow](.github/basic-workflow.png)
+
+### Workflow Configuration
+
+```yaml
+name: Basic Docker Build
+
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+
+jobs:
+  build-image:
+    name: Build Docker Image
+    runs-on: ubuntu-latest
+    steps:
+      - name: Login Into Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+      - name: Docker Build
+        uses: docker/build-push-action@v6
+        with:
+          push: ${{ github.event_name != 'pull_request' }}
+          tags: moabdelazem/automate-docker:latest,moabdelazem/automate-docker:01
+```
+
+### Pipeline Steps Explained
+
+1. **Trigger Conditions**:
+
+   - Triggers on push to `master` branch
+   - Triggers on any pull request
+
+2. **Environment**:
+
+   - Runs on Ubuntu latest version
+   - Uses Docker's official GitHub Actions
+
+3. **Authentication**:
+
+   - Logs into Docker Hub using secure credentials
+   - Uses GitHub Secrets for secure credential storage
+
+4. **Build and Push**:
+   - Builds the Docker image
+   - Pushes to Docker Hub with two tags:
+     - `latest`: Rolling latest version
+     - `01`: Version-specific tag
+   - Skips push step for pull requests
+
+### Required Secrets
+
+To use this pipeline, you need to configure these secrets in your GitHub repository:
+
+- `DOCKERHUB_USERNAME`: Your Docker Hub username
+- `DOCKERHUB_TOKEN`: Your Docker Hub access token
+
 ## Contributing
 
 Contributions are welcome! Please feel free to submit a Pull Request.
