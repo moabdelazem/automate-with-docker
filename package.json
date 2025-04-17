@@ -1,0 +1,16 @@
+{
+  "name": "automate-with-docker",
+  "version": "1.0.0",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "start": "node src/app.js"
+  },
+  "keywords": [],
+  "author": "Mohamed Abdelazim",
+  "license": "ISC",
+  "description": "Simple app for docker ci automation pipeline",
+  "dependencies": {
+    "express": "^5.1.0"
+  }
+}
