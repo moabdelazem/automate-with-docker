@@ -37,5 +37,6 @@ jobs:
       - name: Run Triviy for all CVEs
         uses: aquasecurity/trivy-action@master
         with:
+          image-ref: "moabdelazem/automate-docker:latest"
           exit-code: 0
           format: table
